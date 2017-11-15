@@ -1,0 +1,189 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "1f70ec06fbfaf5050dc826d6e840fd6e",
+    "packages": [
+        {
+            "name": "spysystem/wsdl2phpgenerator",
+            "version": "3.4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spysystem/wsdl2phpgenerator.git",
+                "reference": "3b05b1a08af0a92809073d6db6603ba5cdfdc7e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spysystem/wsdl2phpgenerator/zipball/3b05b1a08af0a92809073d6db6603ba5cdfdc7e1",
+                "reference": "3b05b1a08af0a92809073d6db6603ba5cdfdc7e1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-soap": "*",
+                "php": ">=5.3.0",
+                "symfony/options-resolver": "~2.6|~3.0",
+                "symfony/polyfill-iconv": "^1.2"
+            },
+            "require-dev": {
+                "kasperg/phing-github": "0.2.*",
+                "phing/phing": "~2.7",
+                "php-vcr/php-vcr": "1.2.6 - 1.2.7|^1.3.1",
+                "php-vcr/phpunit-testlistener-vcr": "~1.1.2",
+                "phpunit/phpunit": "~4.4",
+                "psr/log": "~1.0",
+                "symfony/yaml": "~2.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Wsdl2PhpGenerator\\": [
+                        "src/",
+                        "lib/"
+                    ]
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Wsdl2PhpGenerator\\Tests\\": [
+                        "tests/src"
+                    ]
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Simple class library for generating php classes from a wsdl file.",
+            "keywords": [
+                "soap",
+                "wsdl"
+            ],
+            "support": {
+                "source": "https://github.com/spysystem/wsdl2phpgenerator/tree/3.4.0.1"
+            },
+            "time": "2016-12-22T08:53:27+00:00"
+        },
+        {
+            "name": "symfony/options-resolver",
+            "version": "v3.3.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/options-resolver.git",
+                "reference": "623d9c210a137205f7e6e98166105625402cbb2f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/623d9c210a137205f7e6e98166105625402cbb2f",
+                "reference": "623d9c210a137205f7e6e98166105625402cbb2f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\OptionsResolver\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony OptionsResolver Component",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "config",
+                "configuration",
+                "options"
+            ],
+            "time": "2017-11-05T15:47:03+00:00"
+        },
+        {
+            "name": "symfony/polyfill-iconv",
+            "version": "v1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-iconv.git",
+                "reference": "7a84ccdb8c953ee274c96dd6bde778d873fc824a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/7a84ccdb8c953ee274c96dd6bde778d873fc824a",
+                "reference": "7a84ccdb8c953ee274c96dd6bde778d873fc824a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-iconv": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Iconv\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Iconv extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "iconv",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2017-10-11T12:05:26+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

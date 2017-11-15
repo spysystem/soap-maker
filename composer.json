@@ -1,0 +1,15 @@
+{
+  	"name": "spysystem/soap-maker",
+  	"description": "SOAP library generator",
+  	"minimum-stability": "stable",
+  	"license": "proprietary",
+	"repositories": [
+		{
+	  		"type": "vcs",
+	  		"url": "https://github.com/spysystem/wsdl2phpgenerator"
+  		}
+	],
+  	"require": {
+		"spysystem/wsdl2phpgenerator": "3.*"
+  	}
+}

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "spysystem/wsdl2phpgenerator",
-            "version": "3.4.0.1",
+            "version": "v3.4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spysystem/wsdl2phpgenerator.git",
-                "reference": "3b05b1a08af0a92809073d6db6603ba5cdfdc7e1"
+                "reference": "cd3dd3a4366a6095cad55dafec56ca87b612988c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spysystem/wsdl2phpgenerator/zipball/3b05b1a08af0a92809073d6db6603ba5cdfdc7e1",
-                "reference": "3b05b1a08af0a92809073d6db6603ba5cdfdc7e1",
+                "url": "https://api.github.com/repos/spysystem/wsdl2phpgenerator/zipball/cd3dd3a4366a6095cad55dafec56ca87b612988c",
+                "reference": "cd3dd3a4366a6095cad55dafec56ca87b612988c",
                 "shasum": ""
             },
             "require": {
@@ -60,13 +60,13 @@
                 "wsdl"
             ],
             "support": {
-                "source": "https://github.com/spysystem/wsdl2phpgenerator/tree/3.4.0.1"
+                "source": "https://github.com/spysystem/wsdl2phpgenerator/tree/v3.4.1.1"
             },
-            "time": "2016-12-22T08:53:27+00:00"
+            "time": "2017-11-17T10:27:29+00:00"
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v3.3.12",
+            "version": "v3.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",

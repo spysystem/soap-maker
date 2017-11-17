@@ -32,7 +32,13 @@ class SoapMaker
 					'inputFile'			=> $this->strWSDL,
 					'outputDir'			=> $strSrcOutputDir,
 					'namespaceName'		=> $this->strProjectName,
-					'bracketedArrays'	=> true
+					'bracketedArrays'	=> true,
+					'soapClientOptions'	=> [
+						'trace'        => true,
+						'exceptions'   => true,
+						'soap_version' => SOAP_1_2,
+						'encoding'     => 'UTF-8'
+					]
 				])
 			);
 
@@ -105,6 +111,7 @@ EOT;
 if($argc !== 3)
 {
 	SoapMaker::ShowUsage();
+	exit();
 }
 
 $oSoapMaker	= new SoapMaker($argv[1], $argv[2]);

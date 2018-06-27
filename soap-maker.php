@@ -1,6 +1,9 @@
 <?php
 require 'vendor/autoload.php';
 
+/**
+ * Class SoapMaker
+ */
 class SoapMaker
 {
 	const OutputFolder = '/output/';
@@ -8,6 +11,12 @@ class SoapMaker
 	private $strProjectName;
 	private $strWSDL;
 
+	/**
+	 * SoapMaker constructor.
+	 *
+	 * @param string $strProjectName
+	 * @param string $strWSDL
+	 */
 	public function __construct(string $strProjectName, string $strWSDL)
 	{
 		$this->strProjectName	= $strProjectName;
@@ -18,7 +27,7 @@ class SoapMaker
 	{
 		try
 		{
-			$strOutputDir		= __DIR__.self::OutputFolder.$this->strProjectName;
+			$strOutputDir		= __DIR__.self::OutputFolder.str_replace('\\', '/',$this->strProjectName);
 			$strSrcOutputDir	= $strOutputDir.'/src';
 			if(file_exists($strOutputDir))
 			{
@@ -77,17 +86,19 @@ EOT;
 	 */
 	private function getComposerJsonContent(): string
 	{
+		$strAdjustedNamespace	= str_replace('\\', '\\\\', $this->strProjectName);
+		$strPackageName			= str_replace('\\', '', $this->strProjectName);
 		return <<< EOT
 {
-	"name": "spysystem/$this->strProjectName",
-	"description": "PHP library for $this->strProjectName Web Services",
+	"name": "spysystem/$strPackageName",
+	"description": "PHP library for $strPackageName Web Services",
 	"license": "proprietary",
 	"require": {
-		"php": ">=5.6"
+		"php": ">=7.1"
 	},
 	"autoload": {
 		"psr-4": {
-			"$this->strProjectName\\\\": "src"
+			"$strAdjustedNamespace\\\\": "src/"
 		}
 	}
 }

@@ -1,15 +1,14 @@
 {
-  	"name": "spysystem/soap-maker",
-  	"description": "SOAP library generator",
-  	"minimum-stability": "stable",
-  	"license": "proprietary",
+	"name": "spysystem/soap-maker",
+	"description": "SOAP library generator",
+	"minimum-stability": "stable",
+	"license": "proprietary",
 	"repositories": [
-		{
-	  		"type": "vcs",
-	  		"url": "https://github.com/spysystem/wsdl2phpgenerator"
-  		}
+		{"type": "composer", "url": "https://repo.packagist.com/spysystem/"},
+		{"packagist.org": false}
 	],
-  	"require": {
-		"spysystem/wsdl2phpgenerator": "3.*"
-  	}
+	"require": {
+		"spysystem/wsdl2phpgenerator": "3.*",
+		"ext-soap": "*"
+	}
 }

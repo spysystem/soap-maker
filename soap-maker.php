@@ -1,4 +1,9 @@
 <?php
+
+use Nadar\PhpComposerReader\Autoload;
+use Nadar\PhpComposerReader\AutoloadSection;
+use Nadar\PhpComposerReader\ComposerReader;
+
 require 'vendor/autoload.php';
 
 /**
@@ -9,6 +14,7 @@ class SoapMaker
 	private const OutputFolder = '/output/';
 
 	private const Option_ProjectName	= 'project-name';
+	private const Option_Namespace		= 'namespace';
 	private const Option_WSDLPath		= 'wsdl-path';
 	private const Option_Username		= 'username';
 	private const Option_Password		= 'password';
@@ -19,6 +25,7 @@ class SoapMaker
 	private $strWSDL;
 	private $strUsername;
 	private $strPassword;
+	private $strNamespace;
 
 	/**
 	 * SoapMaker constructor.
@@ -35,20 +42,57 @@ class SoapMaker
 		{
 			echo $oException->getMessage()."\n";
 			$this->showUsage();
+			exit();
 		}
+	}
+
+	/**
+	 * @param string $strOutputDir
+	 * @return string
+	 */
+	private function generateSrcOutputDir(string $strOutputDir): string
+	{
+		$strSrcOutputDir	= $strOutputDir.'/src';
+		if(strpos($this->strNamespace, '\\') === false)
+		{
+			return $strSrcOutputDir;
+		}
+
+		return $strSrcOutputDir.$this->getPathComplementFromNamespace();
+	}
+
+	/**
+	 * @return string
+	 */
+	private function getPathComplementFromNamespace(): string
+	{
+		$strTarget	= substr($this->strNamespace, strpos($this->strNamespace, '\\'));
+		return str_replace('\\', '/', $strTarget);
 	}
 
 	public function generate(): void
 	{
+		$bProjectExists	= false;
 		try
 		{
 			$strOutputDir		= __DIR__.self::OutputFolder.str_replace('\\', '/',$this->strProjectName);
-			$strSrcOutputDir	= $strOutputDir.'/src';
+			$strSrcOutputDir	= $this->generateSrcOutputDir($strOutputDir);
 			if(file_exists($strOutputDir))
 			{
-				throw new Exception('Cannot create project: folder "'.$strOutputDir.'" already exists.');
+				if($this->strProjectName === $this->strNamespace)
+				{
+					throw new Exception('Cannot create project: folder "'.$strOutputDir.'" already exists.');
+				}
+				else
+				{
+					$bProjectExists	= true;
+					echo "Project already exists - if the given namespace already exists, this may overwrite files. Use with caution.\n";
+				}
 			}
-			mkdir($strSrcOutputDir, 0777, true);
+			else
+			{
+				mkdir($strSrcOutputDir, 0777, true);
+			}
 
 			$arrSoapClientOptions	= [
 				'trace'        => true,
@@ -69,15 +113,23 @@ class SoapMaker
 				new \Wsdl2PhpGenerator\Config([
 					'inputFile'			=> $this->strWSDL,
 					'outputDir'			=> $strSrcOutputDir,
-					'namespaceName'		=> $this->strProjectName,
+					'namespaceName'		=> $this->strNamespace,
 					'bracketedArrays'	=> true,
 					'soapClientOptions'	=> $arrSoapClientOptions
 				])
 			);
 
-			file_put_contents($strOutputDir.'/README.md', $this->strProjectName.' Web Services');
-			file_put_contents($strOutputDir.'/composer.json', $this->getComposerJsonContent());
-			file_put_contents($strOutputDir.'/.gitignore', $this->getGitIgnoreContent());
+
+			if($bProjectExists)
+			{
+				$this->updateComposer($strOutputDir);
+			}
+			else
+			{
+				file_put_contents($strOutputDir.'/README.md', $this->strProjectName.' Web Services');
+				file_put_contents($strOutputDir.'/composer.json', $this->getComposerJsonContent());
+				file_put_contents($strOutputDir.'/.gitignore', $this->getGitIgnoreContent());
+			}
 
 			echo "\n".$this->strProjectName.' SOAP library created at '.$strOutputDir.".\n\n";
 		}
@@ -88,16 +140,43 @@ class SoapMaker
 		}
 	}
 
+	/**
+	 * @param string $strOutputDir
+	 */
+	private function updateComposer(string $strOutputDir): void
+	{
+		$strComposerFile	= $strOutputDir.'/composer.json';
+
+		if(!is_file($strComposerFile))
+		{
+			file_put_contents($strOutputDir.'/composer.json', $this->getComposerJsonContent());
+			return;
+		}
+
+		$strNamespacePath	= 'src'.$this->getPathComplementFromNamespace().'/';
+
+		$oReader	= new ComposerReader($strComposerFile);
+		$oNew		= new Autoload($oReader, $this->strNamespace.'\\', $strNamespacePath, AutoloadSection::TYPE_PSR4);
+
+		$oSection	= new AutoloadSection($oReader);
+		$oSection
+			->add($oNew)
+			->save()
+		;
+
+
+	}
 
 	private function showUsage(): void
 	{
 		echo <<<EOT
 Usage:
-	php soap-maker.php --project-name <ProjectName> --wsdl-path <WSDL> [--username <Username> --password <Password>]
+	php soap-maker.php --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>]
 
 Where:
 	<ProjectName> = Name for the project, without spaces
 	<WSDL> = file or URL for the WSDL SOAP description
+	<Namespace> = Namespace for the project classes. If omitted, defaults to ProjectName
 	<Username>, <Password> = credentials for Basic Authentication, if required
 
 Project will be generated into the "output" folder
@@ -111,19 +190,18 @@ EOT;
 	 */
 	private function getComposerJsonContent(): string
 	{
-		$strAdjustedNamespace	= str_replace('\\', '\\\\', $this->strProjectName);
-		$strPackageName			= str_replace('\\', '', $this->strProjectName);
+		$strAdjustedNamespace	= str_replace('\\', '\\\\', $this->strNamespace);
 		return <<< EOT
 {
-	"name": "spysystem/$strPackageName",
-	"description": "PHP library for $strPackageName Web Services",
+	"name": "spysystem/{$this->strProjectName}",
+	"description": "PHP library for {$this->strProjectName} Web Services",
 	"license": "proprietary",
 	"require": {
 		"php": ">=7.1"
 	},
 	"autoload": {
 		"psr-4": {
-			"$strAdjustedNamespace\\\\": "src/"
+			"$strAdjustedNamespace\\\\": "src{$this->getPathComplementFromNamespace()}/"
 		}
 	}
 }
@@ -177,6 +255,7 @@ EOT;
 		$this->strWSDL			= $arrOptions[self::Option_WSDLPath];
 		$this->strUsername		= $arrOptions[self::Option_Username] ?? '';
 		$this->strPassword		= $arrOptions[self::Option_Password] ?? '';
+		$this->strNamespace		= $arrOptions[self::Option_Namespace] ?? $this->strProjectName;
 	}
 
 	public static function GetLongOptsArray(): array
@@ -185,7 +264,8 @@ EOT;
 			self::Option_ProjectName.self::Option_WithValue,
 			self::Option_WSDLPath.self::Option_WithValue,
 			self::Option_Username.self::Option_WithValue,
-			self::Option_Password.self::Option_WithValue
+			self::Option_Password.self::Option_WithValue,
+			self::Option_Namespace.self::Option_WithValue
 		];
 	}
 }

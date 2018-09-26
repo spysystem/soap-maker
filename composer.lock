@@ -4,8 +4,50 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1f70ec06fbfaf5050dc826d6e840fd6e",
+    "content-hash": "0e4eb4f3b6a05e62643acd443765321f",
     "packages": [
+        {
+            "name": "nadar/php-composer-reader",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nadar/php-composer-reader.git",
+                "reference": "eac6a6aa5a2844eebad3494809a7211e7f8df320"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nadar/php-composer-reader/zipball/eac6a6aa5a2844eebad3494809a7211e7f8df320",
+                "reference": "eac6a6aa5a2844eebad3494809a7211e7f8df320",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://repo.packagist.com/spysystem/dists/%package%/%version%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nadar\\PhpComposerReader\\": "src/"
+                }
+            },
+            "notification-url": "https://repo.packagist.com/spysystem/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Basil Suter",
+                    "email": "git@nadar.io"
+                }
+            ],
+            "description": "Read and manipulate composer.json",
+            "time": "2018-09-24T18:35:13+00:00"
+        },
         {
             "name": "spysystem/wsdl2phpgenerator",
             "version": "v3.4.1.1",
@@ -18,7 +60,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/spysystem/wsdl2phpgenerator/zipball/cd3dd3a4366a6095cad55dafec56ca87b612988c",
                 "reference": "cd3dd3a4366a6095cad55dafec56ca87b612988c",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://repo.packagist.com/spysystem/dists/%package%/%version%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-soap": "*",
@@ -76,7 +124,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/options-resolver/zipball/623d9c210a137205f7e6e98166105625402cbb2f",
                 "reference": "623d9c210a137205f7e6e98166105625402cbb2f",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://repo.packagist.com/spysystem/dists/%package%/%version%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": "^5.5.9|>=7.0.8"
@@ -130,7 +184,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/7a84ccdb8c953ee274c96dd6bde778d873fc824a",
                 "reference": "7a84ccdb8c953ee274c96dd6bde778d873fc824a",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://repo.packagist.com/spysystem/dists/%package%/%version%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": ">=5.3.3"
@@ -184,6 +244,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-soap": "*"
+    },
     "platform-dev": []
 }

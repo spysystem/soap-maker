@@ -9,6 +9,7 @@
 	],
 	"require": {
 		"spysystem/wsdl2phpgenerator": "3.*",
+		"nadar/php-composer-reader": "~1.0.1",
 		"ext-soap": "*"
 	}
 }

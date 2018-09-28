@@ -18,14 +18,16 @@ class SoapMaker
 	private const Option_WSDLPath		= 'wsdl-path';
 	private const Option_Username		= 'username';
 	private const Option_Password		= 'password';
+	private const Option_SOAPVersion	= 'soap-version';
 
-	private const Option_WithValue		= ':';
+	private const Option_WithValue   = ':';
 
 	private $strProjectName;
 	private $strWSDL;
 	private $strUsername;
 	private $strPassword;
 	private $strNamespace;
+	private $strSOAPVersion;
 
 	/**
 	 * SoapMaker constructor.
@@ -89,15 +91,15 @@ class SoapMaker
 					echo "Project already exists - if the given namespace already exists, this may overwrite files. Use with caution.\n";
 				}
 			}
-			else
+			elseif(!mkdir($strSrcOutputDir, 0777, true) && !is_dir($strSrcOutputDir))
 			{
-				mkdir($strSrcOutputDir, 0777, true);
+				throw new RuntimeException(sprintf('Directory "%s" was not created', $strSrcOutputDir));
 			}
 
 			$arrSoapClientOptions	= [
 				'trace'        => true,
 				'exceptions'   => true,
-				'soap_version' => SOAP_1_2,
+				'soap_version' => $this->strSOAPVersion,
 				'encoding'     => 'UTF-8'
 			];
 
@@ -171,13 +173,14 @@ class SoapMaker
 	{
 		echo <<<EOT
 Usage:
-	php soap-maker.php --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>]
+	php soap-maker.php --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>] [--soap-version <SOAPVersion>]
 
 Where:
 	<ProjectName> = Name for the project, without spaces
 	<WSDL> = file or URL for the WSDL SOAP description
 	<Namespace> = Namespace for the project classes. If omitted, defaults to ProjectName
-	<Username>, <Password> = credentials for Basic Authentication, if required
+	<SOAPVersion> = SOAP Version
+	<Username>, <Password> = credentials for Basic Authentication, if required (if you need authentication, both must be present)
 
 Project will be generated into the "output" folder
 
@@ -256,6 +259,7 @@ EOT;
 		$this->strUsername		= $arrOptions[self::Option_Username] ?? '';
 		$this->strPassword		= $arrOptions[self::Option_Password] ?? '';
 		$this->strNamespace		= $arrOptions[self::Option_Namespace] ?? $this->strProjectName;
+		$this->strSOAPVersion	= (int)($arrOptions[self::Option_SOAPVersion] ?? SOAP_1_2);
 	}
 
 	public static function GetLongOptsArray(): array
@@ -265,7 +269,8 @@ EOT;
 			self::Option_WSDLPath.self::Option_WithValue,
 			self::Option_Username.self::Option_WithValue,
 			self::Option_Password.self::Option_WithValue,
-			self::Option_Namespace.self::Option_WithValue
+			self::Option_Namespace.self::Option_WithValue,
+			self::Option_SOAPVersion.self::Option_WithValue
 		];
 	}
 }

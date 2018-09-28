@@ -8,7 +8,7 @@
 		{"packagist.org": false}
 	],
 	"require": {
-		"spysystem/wsdl2phpgenerator": "3.*",
+		"spysystem/wsdl2phpgenerator": "^v3.5.0",
 		"nadar/php-composer-reader": "~1.0.1",
 		"ext-soap": "*"
 	}

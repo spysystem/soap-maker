@@ -50,16 +50,16 @@
         },
         {
             "name": "spysystem/wsdl2phpgenerator",
-            "version": "v3.5.0",
+            "version": "v3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spysystem/wsdl2phpgenerator.git",
-                "reference": "004df7bb194ea81529c0f77af1c5c8aa9fc7a9c2"
+                "reference": "f618ca216abca7ed7444c1b7472bb70a792f624f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spysystem/wsdl2phpgenerator/zipball/004df7bb194ea81529c0f77af1c5c8aa9fc7a9c2",
-                "reference": "004df7bb194ea81529c0f77af1c5c8aa9fc7a9c2",
+                "url": "https://api.github.com/repos/spysystem/wsdl2phpgenerator/zipball/f618ca216abca7ed7444c1b7472bb70a792f624f",
+                "reference": "f618ca216abca7ed7444c1b7472bb70a792f624f",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -72,7 +72,7 @@
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-soap": "*",
-                "php": ">=5.3.0",
+                "php": ">=7.1.0",
                 "symfony/options-resolver": "~2.6|~3.0",
                 "symfony/polyfill-iconv": "^1.2"
             },
@@ -111,22 +111,22 @@
                 "wsdl"
             ],
             "support": {
-                "source": "https://github.com/spysystem/wsdl2phpgenerator/tree/v3.5.0"
+                "source": "https://github.com/spysystem/wsdl2phpgenerator/tree/v3.5.1"
             },
-            "time": "2018-09-28T08:45:39+00:00"
+            "time": "2018-10-01T21:53:24+00:00"
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v3.4.15",
+            "version": "v3.4.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "6debc476953a45969ab39afe8dee0b825f356dc7"
+                "reference": "1cf7d8e704a9cc4164c92e430f2dfa3e6983661d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/6debc476953a45969ab39afe8dee0b825f356dc7",
-                "reference": "6debc476953a45969ab39afe8dee0b825f356dc7",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/1cf7d8e704a9cc4164c92e430f2dfa3e6983661d",
+                "reference": "1cf7d8e704a9cc4164c92e430f2dfa3e6983661d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -173,7 +173,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2018-07-26T08:45:46+00:00"
+            "time": "2018-09-17T17:29:18+00:00"
         },
         {
             "name": "symfony/polyfill-iconv",

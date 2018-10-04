@@ -50,16 +50,16 @@
         },
         {
             "name": "spysystem/wsdl2phpgenerator",
-            "version": "v3.5.1",
+            "version": "v3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spysystem/wsdl2phpgenerator.git",
-                "reference": "f618ca216abca7ed7444c1b7472bb70a792f624f"
+                "reference": "be5b96e2b657254984b90beb1353eafa5a032261"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spysystem/wsdl2phpgenerator/zipball/f618ca216abca7ed7444c1b7472bb70a792f624f",
-                "reference": "f618ca216abca7ed7444c1b7472bb70a792f624f",
+                "url": "https://api.github.com/repos/spysystem/wsdl2phpgenerator/zipball/be5b96e2b657254984b90beb1353eafa5a032261",
+                "reference": "be5b96e2b657254984b90beb1353eafa5a032261",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -70,6 +70,7 @@
             },
             "require": {
                 "ext-dom": "*",
+                "ext-iconv": "*",
                 "ext-libxml": "*",
                 "ext-soap": "*",
                 "php": ">=7.1.0",
@@ -111,13 +112,13 @@
                 "wsdl"
             ],
             "support": {
-                "source": "https://github.com/spysystem/wsdl2phpgenerator/tree/v3.5.1"
+                "source": "https://github.com/spysystem/wsdl2phpgenerator/tree/v3.5.2"
             },
-            "time": "2018-10-01T21:53:24+00:00"
+            "time": "2018-10-04T14:37:56+00:00"
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v3.4.16",
+            "version": "v3.4.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",

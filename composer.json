@@ -7,8 +7,11 @@
 		{"type": "composer", "url": "https://repo.packagist.com/spysystem/"},
 		{"packagist.org": false}
 	],
+	"require-dev": {
+		"roave/security-advisories": "dev-master"
+	},
 	"require": {
-		"spysystem/wsdl2phpgenerator": "^v3.5.0",
+		"spysystem/wsdl2phpgenerator": "~v3.5.4",
 		"nadar/php-composer-reader": "~1.0.1",
 		"ext-soap": "*"
 	}

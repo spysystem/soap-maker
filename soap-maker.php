@@ -68,6 +68,11 @@ class SoapMaker
 	 */
 	private function getPathComplementFromNamespace(): string
 	{
+		if(strpos($this->strNamespace, '\\') === false)
+		{
+			return '';
+		}
+
 		$strTarget	= substr($this->strNamespace, strpos($this->strNamespace, '\\'));
 		return str_replace('\\', '/', $strTarget);
 	}
@@ -85,11 +90,8 @@ class SoapMaker
 				{
 					throw new Exception('Cannot create project: folder "'.$strOutputDir.'" already exists.');
 				}
-				else
-				{
-					$bProjectExists	= true;
-					echo "Project already exists - if the given namespace already exists, this may overwrite files. Use with caution.\n";
-				}
+				$bProjectExists	= true;
+				echo "Project already exists - if the given namespace already exists, this may overwrite files. Use with caution.\n";
 			}
 			elseif(!mkdir($strSrcOutputDir, 0777, true) && !is_dir($strSrcOutputDir))
 			{
@@ -232,12 +234,12 @@ EOT;
 	{
 		if(!array_key_exists(self::Option_ProjectName, $arrOptions) || $arrOptions[self::Option_ProjectName] === '')
 		{
-			throw new Exception('Missing Project Name!');
+			throw new RuntimeException('Missing Project Name!');
 		}
 
 		if(!array_key_exists(self::Option_WSDLPath, $arrOptions) || $arrOptions[self::Option_WSDLPath] === '')
 		{
-			throw new Exception('Missing wsdl url or filename!');
+			throw new RuntimeException('Missing wsdl url or filename!');
 		}
 
 		if(
@@ -252,7 +254,7 @@ EOT;
 			)
 		)
 		{
-			throw new Exception('To use authentication, you must provide both Username and Password!');
+			throw new RuntimeException('To use authentication, you must provide both Username and Password!');
 		}
 		$this->strProjectName	= $arrOptions[self::Option_ProjectName];
 		$this->strWSDL			= $arrOptions[self::Option_WSDLPath];
@@ -262,6 +264,9 @@ EOT;
 		$this->strSOAPVersion	= (int)($arrOptions[self::Option_SOAPVersion] ?? SOAP_1_2);
 	}
 
+	/**
+	 * @return array
+	 */
 	public static function GetLongOptsArray(): array
 	{
 		return [

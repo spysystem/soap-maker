@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+
+use SpySystem\SoapMaker\SoapMaker;
+
+require 'vendor/autoload.php';
+
+$oSoapMaker	= new SoapMaker(getopt('', SoapMaker::GetLongOptsArray()));
+
+$oSoapMaker->generate();

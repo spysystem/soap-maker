@@ -1,10 +1,14 @@
 <?php
+namespace SpySystem\SoapMaker;
 
+use Exception;
 use Nadar\PhpComposerReader\Autoload;
 use Nadar\PhpComposerReader\AutoloadSection;
 use Nadar\PhpComposerReader\ComposerReader;
-
-require 'vendor/autoload.php';
+use RuntimeException;
+use Throwable;
+use Wsdl2PhpGenerator\Config;
+use Wsdl2PhpGenerator\Generator;
 
 /**
  * Class SoapMaker
@@ -19,15 +23,14 @@ class SoapMaker
 	private const Option_Username		= 'username';
 	private const Option_Password		= 'password';
 	private const Option_SOAPVersion	= 'soap-version';
+	private const Option_WithValue		= ':';
 
-	private const Option_WithValue   = ':';
-
-	private $strProjectName;
-	private $strWSDL;
-	private $strUsername;
-	private $strPassword;
-	private $strNamespace;
-	private $strSOAPVersion;
+	private string	$strProjectName;
+	private string	$strWSDL;
+	private string	$strUsername;
+	private string	$strPassword;
+	private string	$strNamespace;
+	private string	$strSOAPVersion;
 
 	/**
 	 * SoapMaker constructor.
@@ -112,15 +115,15 @@ class SoapMaker
 				$arrSoapClientOptions['password']		= $this->strPassword;
 			}
 
-			$oGenerator	= new \Wsdl2PhpGenerator\Generator();
+			$oGenerator	= new Generator();
 			$oGenerator->generate(
-				new \Wsdl2PhpGenerator\Config([
-					'inputFile'			=> $this->strWSDL,
-					'outputDir'			=> $strSrcOutputDir,
-					'namespaceName'		=> $this->strNamespace,
-					'bracketedArrays'	=> true,
-					'soapClientOptions'	=> $arrSoapClientOptions
-				])
+				new Config([
+							   'inputFile'			=> $this->strWSDL,
+							   'outputDir'			=> $strSrcOutputDir,
+							   'namespaceName'		=> $this->strNamespace,
+							   'bracketedArrays'	=> true,
+							   'soapClientOptions'	=> $arrSoapClientOptions
+						   ])
 			);
 
 
@@ -174,20 +177,22 @@ class SoapMaker
 	private function showUsage(): void
 	{
 		echo <<<EOT
-Usage:
-	php soap-maker.php --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>] [--soap-version <SOAPVersion>]
-
-Where:
-	<ProjectName> = Name for the project, without spaces
-	<WSDL> = file or URL for the WSDL SOAP description
-	<Namespace> = Namespace for the project classes. If omitted, defaults to ProjectName
-	<SOAPVersion> = SOAP Version
-	<Username>, <Password> = credentials for Basic Authentication, if required (if you need authentication, both must be present)
-
-Project will be generated into the "output" folder
-
-EOT;
-
+		Usage:
+			Mac/Linux:
+				./soap-maker --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>] [--soap-version <SOAPVersion>]
+			Windows:
+				php soap-maker --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>] [--soap-version <SOAPVersion>]
+		
+		Where:
+			<ProjectName>          = Name for the project, without spaces
+			<WSDL>                 = file or URL for the WSDL SOAP description
+			<Namespace>            = Namespace for the project classes. If omitted, defaults to ProjectName
+			<SOAPVersion>          = SOAP Version
+			<Username>, <Password> = credentials for Basic Authentication, if required (if you need authentication, both must be present)
+		
+		Project will be generated into the "output" folder
+		
+		EOT;
 	}
 
 	/**
@@ -197,20 +202,20 @@ EOT;
 	{
 		$strAdjustedNamespace	= str_replace('\\', '\\\\', $this->strNamespace);
 		return <<< EOT
-{
-	"name": "spysystem/{$this->strProjectName}",
-	"description": "PHP library for {$this->strProjectName} Web Services",
-	"license": "proprietary",
-	"require": {
-		"php": ">=7.1"
-	},
-	"autoload": {
-		"psr-4": {
-			"$strAdjustedNamespace\\\\": "src{$this->getPathComplementFromNamespace()}/"
+		{
+			"name": "spysystem/{$this->strProjectName}",
+			"description": "PHP library for {$this->strProjectName} Web Services",
+			"license": "proprietary",
+			"require": {
+				"php": ">=7.1"
+			},
+			"autoload": {
+				"psr-4": {
+					"$strAdjustedNamespace\\\\": "src{$this->getPathComplementFromNamespace()}/"
+				}
+			}
 		}
-	}
-}
-EOT;
+		EOT;
 
 	}
 
@@ -220,9 +225,9 @@ EOT;
 	private function getGitIgnoreContent(): string
 	{
 		return <<< EOT
-# IntelliJ project files
-.idea
-EOT;
+		# IntelliJ project files
+		.idea
+		EOT;
 
 	}
 
@@ -245,12 +250,12 @@ EOT;
 		if(
 			(
 				array_key_exists(self::Option_Username, $arrOptions)
-			 &&	!array_key_exists(self::Option_Password, $arrOptions)
+				&&	!array_key_exists(self::Option_Password, $arrOptions)
 			)
-		 ||
+			||
 			(
 				!array_key_exists(self::Option_Username, $arrOptions)
-			 &&	array_key_exists(self::Option_Password, $arrOptions)
+				&&	array_key_exists(self::Option_Password, $arrOptions)
 			)
 		)
 		{
@@ -279,7 +284,3 @@ EOT;
 		];
 	}
 }
-
-$oSoapMaker	= new SoapMaker(getopt('', SoapMaker::GetLongOptsArray()));
-
-$oSoapMaker->generate();

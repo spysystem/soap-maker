@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7989ffdd70a3173c648364ef19f2da09",
+    "content-hash": "b4ce59a0353a51d03d0cd2aecb1d6112",
     "packages": [
         {
             "name": "nadar/php-composer-reader",
@@ -566,14 +566,11 @@
     "stability-flags": {
         "roave/security-advisories": 20
     },
-    "prefer-stable": true,
+    "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.4",
         "ext-soap": "*"
     },
-    "platform-dev": [],
-    "platform-overrides": {
-        "php": "7.4.0"
-    }
+    "platform-dev": []
 }

@@ -2,7 +2,6 @@
 	"name": "spysystem/soap-maker",
 	"description": "SOAP library generator",
 	"license": "proprietary",
-	"minimum-stability": "dev",
 	"repositories": [
 		{"type": "composer", "url": "https://repo.packagist.com/spysystem/"},
 		{"packagist.org": false}
@@ -15,13 +14,6 @@
 		"spysystem/wsdl2phpgenerator": "~v3.5.4",
 		"nadar/php-composer-reader": "~1.0.1",
 		"ext-soap": "*"
-	},
-	"config": {
-		"platform": {
-			"php": "7.4.0"
-		},
-		"optimize-autoloader": true,
-		"sort-packages": true
 	},
 	"bin": [
 		"soap-maker"

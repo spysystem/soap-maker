@@ -1,0 +1,13 @@
+{
+  "require": {
+    "php": ">=7.4",
+    "ext-soap": "*"
+  },
+  "repositories": [
+    {"type": "composer", "url": "https://repo.packagist.com/spysystem/"},
+    {"packagist.org": false}
+  ],
+  "require-dev": {
+    "spysystem/soap-maker": "^2.0.0"
+  }
+}

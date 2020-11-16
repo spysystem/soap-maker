@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Sample script to build a SOAP library from a wsdl definition
+
+set -e
+
+rm -rf src
+
+composer install
+
+# comment out this line if you want to manage the composer.json file by yourself
+rm -rf composer.json
+
+./vendor/spysystem/soap-maker/soap-maker \
+ --vendor-name your-vendor-name \
+ --project-name your-fancy-project-name \
+ --wsdl-path https://path.to.your/fancy/url.wsdl \
+ --namespace 'Your\\Fancy\\Namespace' \
+ --output-path "$(pwd)" \
+ --use-private-packagist #true|false
+
+git add src/*

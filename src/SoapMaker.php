@@ -17,20 +17,26 @@ class SoapMaker
 {
 	private const OutputFolder = '/output/';
 
-	private const Option_ProjectName	= 'project-name';
-	private const Option_Namespace		= 'namespace';
-	private const Option_WSDLPath		= 'wsdl-path';
-	private const Option_Username		= 'username';
-	private const Option_Password		= 'password';
-	private const Option_SOAPVersion	= 'soap-version';
-	private const Option_WithValue		= ':';
+	private const Option_VendorName				= 'vendor-name';
+	private const Option_ProjectName			= 'project-name';
+	private const Option_Namespace				= 'namespace';
+	private const Option_WSDLPath				= 'wsdl-path';
+	private const Option_Username				= 'username';
+	private const Option_Password				= 'password';
+	private const Option_SOAPVersion			= 'soap-version';
+	private const Option_OutputPath				= 'output-path';
+	private const Option_UsePrivatePackagist	= 'use-private-packagist';
+	private const Option_WithValue				= ':';
 
+	private string	$strVendorName;
 	private string	$strProjectName;
 	private string	$strWSDL;
 	private string	$strUsername;
 	private string	$strPassword;
 	private string	$strNamespace;
 	private string	$strSOAPVersion;
+	private string	$strOutputPath;
+	private bool	$bUsePrivatePackagist;
 
 	/**
 	 * SoapMaker constructor.
@@ -52,12 +58,11 @@ class SoapMaker
 	}
 
 	/**
-	 * @param string $strOutputDir
 	 * @return string
 	 */
-	private function generateSrcOutputDir(string $strOutputDir): string
+	private function generateSrcOutputDir(): string
 	{
-		$strSrcOutputDir	= $strOutputDir.'/src';
+		$strSrcOutputDir	= $this->strOutputPath.'/src';
 		if(strpos($this->strNamespace, '\\') === false)
 		{
 			return $strSrcOutputDir;
@@ -85,14 +90,9 @@ class SoapMaker
 		$bProjectExists	= false;
 		try
 		{
-			$strOutputDir		= __DIR__.self::OutputFolder.str_replace('\\', '/',$this->strProjectName);
-			$strSrcOutputDir	= $this->generateSrcOutputDir($strOutputDir);
-			if(file_exists($strOutputDir))
+			$strSrcOutputDir	= $this->generateSrcOutputDir();
+			if(file_exists($this->strOutputPath))
 			{
-				if($this->strProjectName === $this->strNamespace)
-				{
-					throw new Exception('Cannot create project: folder "'.$strOutputDir.'" already exists.');
-				}
 				$bProjectExists	= true;
 				echo "Project already exists - if the given namespace already exists, this may overwrite files. Use with caution.\n";
 			}
@@ -102,10 +102,10 @@ class SoapMaker
 			}
 
 			$arrSoapClientOptions	= [
-				'trace'        => true,
-				'exceptions'   => true,
-				'soap_version' => $this->strSOAPVersion,
-				'encoding'     => 'UTF-8'
+				'trace'			=> true,
+				'exceptions'	=> true,
+				'soap_version'	=> $this->strSOAPVersion,
+				'encoding'		=> 'UTF-8'
 			];
 
 			if($this->strUsername !== '')
@@ -118,27 +118,27 @@ class SoapMaker
 			$oGenerator	= new Generator();
 			$oGenerator->generate(
 				new Config([
-							   'inputFile'			=> $this->strWSDL,
-							   'outputDir'			=> $strSrcOutputDir,
-							   'namespaceName'		=> $this->strNamespace,
-							   'bracketedArrays'	=> true,
-							   'soapClientOptions'	=> $arrSoapClientOptions
-						   ])
+					'inputFile'			=> $this->strWSDL,
+					'outputDir'			=> $strSrcOutputDir,
+					'namespaceName'		=> $this->strNamespace,
+					'bracketedArrays'	=> true,
+					'soapClientOptions'	=> $arrSoapClientOptions
+				])
 			);
 
 
 			if($bProjectExists)
 			{
-				$this->updateComposer($strOutputDir);
+				$this->updateComposer($this->strOutputPath);
 			}
 			else
 			{
-				file_put_contents($strOutputDir.'/README.md', $this->strProjectName.' Web Services');
-				file_put_contents($strOutputDir.'/composer.json', $this->getComposerJsonContent());
-				file_put_contents($strOutputDir.'/.gitignore', $this->getGitIgnoreContent());
+				file_put_contents($this->strOutputPath.'/README.md', $this->strProjectName.' Web Services');
+				file_put_contents($this->strOutputPath.'/composer.json', $this->getComposerJsonContent());
+				file_put_contents($this->strOutputPath.'/.gitignore', $this->getGitIgnoreContent());
 			}
 
-			echo "\n".$this->strProjectName.' SOAP library created at '.$strOutputDir.".\n\n";
+			echo "\n".$this->strProjectName.' SOAP library created at '.$this->strOutputPath.".\n\n";
 		}
 		catch (Throwable $oThrowable)
 		{
@@ -170,27 +170,27 @@ class SoapMaker
 			->add($oNew)
 			->save()
 		;
-
-
 	}
 
 	private function showUsage(): void
 	{
 		echo <<<EOT
 		Usage:
-			Mac/Linux:
-				./soap-maker --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>] [--soap-version <SOAPVersion>]
-			Windows:
-				php soap-maker --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>] [--soap-version <SOAPVersion>]
+		    Mac/Linux:
+		        ./soap-maker --vendor-name <VendorName> --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>] [--soap-version <SOAPVersion>] [--output-path <PathToOutput>] [--use-private-packagist <true|false>]
+		    Windows:
+		        php soap-maker --vendor-name <VendorName> --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>] [--soap-version <SOAPVersion>] [--output-path <PathToOutput>] [--use-private-packagist <true|false>]
 		
 		Where:
-			<ProjectName>          = Name for the project, without spaces
-			<WSDL>                 = file or URL for the WSDL SOAP description
-			<Namespace>            = Namespace for the project classes. If omitted, defaults to ProjectName
-			<SOAPVersion>          = SOAP Version
-			<Username>, <Password> = credentials for Basic Authentication, if required (if you need authentication, both must be present)
-		
-		Project will be generated into the "output" folder
+		    --vendor-name           = Vendor name on github, without spaces
+		    --project-name          = Name for the project, without spaces
+		    --wsdl-path             = file or URL for the WSDL SOAP description
+		    --namespace             = Namespace for the project classes. If omitted, defaults to ProjectName
+		    --soap-version          = SOAP Version: either 1 (for v1.1) or 2 (for v1.2). If omitted, defaults to 2
+		    --username              = username for Basic Authentication - mandatory if --password is present
+		    --password              = password for Basic Authentication - mandatory if --username is present
+		    --output-path           = path for output. If omitted, project will be generated into the "output" folder
+		    --use-private-packagist = if present and set to true, the composer file will point to the vendor name private packagist repository
 		
 		EOT;
 	}
@@ -201,13 +201,35 @@ class SoapMaker
 	private function getComposerJsonContent(): string
 	{
 		$strAdjustedNamespace	= str_replace('\\', '\\\\', $this->strNamespace);
+
+		$strRepositories	= '';
+		if($this->bUsePrivatePackagist)
+		{
+			$strRepositories	= <<<EOT
+			"repositories": [
+				{
+					"type": "composer",
+					"url": "https://repo.packagist.com/{$this->strVendorName}/"
+				},
+				{
+					"packagist.org": false
+				}
+			],
+			EOT;
+		}
+
 		return <<< EOT
 		{
-			"name": "spysystem/{$this->strProjectName}",
+			"name": "{$this->strVendorName}/{$this->strProjectName}",
 			"description": "PHP library for {$this->strProjectName} Web Services",
 			"license": "proprietary",
+			{$strRepositories}
 			"require": {
-				"php": ">=7.1"
+				"php": ">=7.4",
+				"ext-soap": "*"
+			},
+			"require-dev": {
+				"spysystem/soap-maker": "^2.0.0"
 			},
 			"autoload": {
 				"psr-4": {
@@ -215,8 +237,8 @@ class SoapMaker
 				}
 			}
 		}
-		EOT;
 
+		EOT;
 	}
 
 	/**
@@ -237,6 +259,11 @@ class SoapMaker
 	 */
 	private function parseOptions($arrOptions): void
 	{
+		if(!array_key_exists(self::Option_VendorName, $arrOptions) || $arrOptions[self::Option_VendorName] === '')
+		{
+			throw new RuntimeException('Missing Vendor Name!');
+		}
+
 		if(!array_key_exists(self::Option_ProjectName, $arrOptions) || $arrOptions[self::Option_ProjectName] === '')
 		{
 			throw new RuntimeException('Missing Project Name!');
@@ -261,12 +288,16 @@ class SoapMaker
 		{
 			throw new RuntimeException('To use authentication, you must provide both Username and Password!');
 		}
-		$this->strProjectName	= $arrOptions[self::Option_ProjectName];
-		$this->strWSDL			= $arrOptions[self::Option_WSDLPath];
-		$this->strUsername		= $arrOptions[self::Option_Username] ?? '';
-		$this->strPassword		= $arrOptions[self::Option_Password] ?? '';
-		$this->strNamespace		= $arrOptions[self::Option_Namespace] ?? $this->strProjectName;
-		$this->strSOAPVersion	= (int)($arrOptions[self::Option_SOAPVersion] ?? SOAP_1_2);
+
+		$this->strVendorName		= $arrOptions[self::Option_VendorName];
+		$this->strProjectName		= $arrOptions[self::Option_ProjectName];
+		$this->strWSDL				= $arrOptions[self::Option_WSDLPath];
+		$this->strUsername			= $arrOptions[self::Option_Username] ?? '';
+		$this->strPassword			= $arrOptions[self::Option_Password] ?? '';
+		$this->strNamespace			= $arrOptions[self::Option_Namespace] ?? $this->strProjectName;
+		$this->strSOAPVersion		= (int)($arrOptions[self::Option_SOAPVersion] ?? SOAP_1_2);
+		$this->strOutputPath		= rtrim($arrOptions[self::Option_OutputPath] ?? __DIR__.self::OutputFolder.str_replace('\\', '/',$this->strProjectName), '/');
+		$this->bUsePrivatePackagist	= filter_var($arrOptions[self::Option_UsePrivatePackagist] ?? '', FILTER_VALIDATE_BOOLEAN);
 	}
 
 	/**
@@ -275,12 +306,15 @@ class SoapMaker
 	public static function GetLongOptsArray(): array
 	{
 		return [
+			self::Option_VendorName.self::Option_WithValue,
 			self::Option_ProjectName.self::Option_WithValue,
 			self::Option_WSDLPath.self::Option_WithValue,
 			self::Option_Username.self::Option_WithValue,
 			self::Option_Password.self::Option_WithValue,
 			self::Option_Namespace.self::Option_WithValue,
-			self::Option_SOAPVersion.self::Option_WithValue
+			self::Option_SOAPVersion.self::Option_WithValue,
+			self::Option_OutputPath.self::Option_WithValue,
+			self::Option_UsePrivatePackagist.self::Option_WithValue,
 		];
 	}
 }

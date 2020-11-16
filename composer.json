@@ -2,6 +2,7 @@
 	"name": "spysystem/soap-maker",
 	"description": "SOAP library generator",
 	"license": "proprietary",
+	"minimum-stability": "dev",
 	"repositories": [
 		{"type": "composer", "url": "https://repo.packagist.com/spysystem/"},
 		{"packagist.org": false}

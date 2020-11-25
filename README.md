@@ -78,7 +78,6 @@ Finally, just run your build script again:
 The build script is a wrapper to the **soap-maker** program.
 **soap-maker** has the following syntax:
 
-#####Mac/Linux:
 >./soap-maker --vendor-name <VendorName> --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>] [--soap-version <SOAPVersion>] [--output-path <PathToOutput>] [--use-private-packagist <true|false>]
 #####Windows:
 >php soap-maker --vendor-name <VendorName> --project-name <ProjectName> --wsdl-path <WSDL> [--namespace <Namespace>] [--username <Username> --password <Password>] [--soap-version <SOAPVersion>] [--output-path <PathToOutput>] [--use-private-packagist <true|false>]

@@ -5,7 +5,7 @@ This is a tool for creating SOAP clients to services, based on a provided wsdl f
 ## Installation and usage
 
 ### First run: API creation
-1. Create a folder for your project, and init git on it. Let's say it's called ***fancy-api***:
+1. Create a folder for your project, and run git init on it. Let's say it's called ***fancy-api***:
    ```
    # mkdir fancy-api
    # cd fancy-api
@@ -19,7 +19,7 @@ This is a tool for creating SOAP clients to services, based on a provided wsdl f
    # ./install.sh
    ```
 
-3. This will place three files on the root of your project folder:
+3. This will place two files on the root of your project folder:
    ```
    # ls
    build.sh     composer.json

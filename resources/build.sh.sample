@@ -11,7 +11,7 @@ composer install
 # comment out this line if you want to manage the composer.json file by yourself
 rm -rf composer.json
 
-./vendor/spysystem/soap-maker/soap-maker \
+./vendor/bin/soap-maker \
  --vendor-name your-vendor-name \
  --project-name your-fancy-project-name \
  --wsdl-path https://path.to.your/fancy/url.wsdl \

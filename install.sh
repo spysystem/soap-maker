@@ -11,7 +11,7 @@ chmod 755 build.sh
 printf "Done! \n"
 
 printf "Creating a composer.json file to install soap-maker... "
-wget -c https://github.com/spysystem/soap-maker/raw/master/resources/composer.json.sample -O composer.json
+wget https://github.com/spysystem/soap-maker/raw/master/resources/composer.json.sample -O composer.json
 printf "Done! \n"
 
 printf "Running composer... "

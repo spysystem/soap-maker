@@ -94,6 +94,7 @@ The build script is a wrapper to the **soap-maker** program.
 - **--password** = Password for Basic Authentication. Mandatory if --username is present.
 - **--output-path** = Path for output. If omitted, project will be generated into the "output" folder.
 - **--use-private-packagist** = if present and set to true, the composer file will include the vendor private packagist repository.
+- **--use-location-inside-options** = if present and set to true, the SOAP client will contain the `location` option, which will point to the URL set as parameter when calling the `<YourServiceName>::CreateService()` method.
 
 (* = mandatory fields)
 

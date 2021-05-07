@@ -17,16 +17,17 @@ class SoapMaker
 {
 	private const OutputFolder = '/output/';
 
-	private const Option_VendorName				= 'vendor-name';
-	private const Option_ProjectName			= 'project-name';
-	private const Option_Namespace				= 'namespace';
-	private const Option_WSDLPath				= 'wsdl-path';
-	private const Option_Username				= 'username';
-	private const Option_Password				= 'password';
-	private const Option_SOAPVersion			= 'soap-version';
-	private const Option_OutputPath				= 'output-path';
-	private const Option_UsePrivatePackagist	= 'use-private-packagist';
-	private const Option_WithValue				= ':';
+	private const Option_VendorName					= 'vendor-name';
+	private const Option_ProjectName				= 'project-name';
+	private const Option_Namespace					= 'namespace';
+	private const Option_WSDLPath					= 'wsdl-path';
+	private const Option_Username					= 'username';
+	private const Option_Password					= 'password';
+	private const Option_SOAPVersion				= 'soap-version';
+	private const Option_OutputPath					= 'output-path';
+	private const Option_UsePrivatePackagist		= 'use-private-packagist';
+	private const Option_UseLocationInsideOptions	= 'use-location-inside-options';
+	private const Option_WithValue					= ':';
 
 	private string	$strVendorName;
 	private string	$strProjectName;
@@ -37,6 +38,7 @@ class SoapMaker
 	private string	$strSOAPVersion;
 	private string	$strOutputPath;
 	private bool	$bUsePrivatePackagist;
+	private bool    $bUseLocationInsideOptions;
 
 	/**
 	 * SoapMaker constructor.
@@ -113,6 +115,11 @@ class SoapMaker
 				$arrSoapClientOptions['authentication']	= SOAP_AUTHENTICATION_BASIC;
 				$arrSoapClientOptions['login']			= $this->strUsername;
 				$arrSoapClientOptions['password']		= $this->strPassword;
+			}
+
+			if($this->bUseLocationInsideOptions)
+			{
+				$arrSoapClientOptions['useLocationInsideSoapClientOptions']		= true;
 			}
 
 			$oGenerator	= new Generator();
@@ -289,15 +296,16 @@ class SoapMaker
 			throw new RuntimeException('To use authentication, you must provide both Username and Password!');
 		}
 
-		$this->strVendorName		= $arrOptions[self::Option_VendorName];
-		$this->strProjectName		= $arrOptions[self::Option_ProjectName];
-		$this->strWSDL				= $arrOptions[self::Option_WSDLPath];
-		$this->strUsername			= $arrOptions[self::Option_Username] ?? '';
-		$this->strPassword			= $arrOptions[self::Option_Password] ?? '';
-		$this->strNamespace			= $arrOptions[self::Option_Namespace] ?? $this->strProjectName;
-		$this->strSOAPVersion		= (int)($arrOptions[self::Option_SOAPVersion] ?? SOAP_1_2);
-		$this->strOutputPath		= rtrim($arrOptions[self::Option_OutputPath] ?? __DIR__.self::OutputFolder.str_replace('\\', '/',$this->strProjectName), '/');
-		$this->bUsePrivatePackagist	= filter_var($arrOptions[self::Option_UsePrivatePackagist] ?? '', FILTER_VALIDATE_BOOLEAN);
+		$this->strVendorName				= $arrOptions[self::Option_VendorName];
+		$this->strProjectName				= $arrOptions[self::Option_ProjectName];
+		$this->strWSDL						= $arrOptions[self::Option_WSDLPath];
+		$this->strUsername					= $arrOptions[self::Option_Username] ?? '';
+		$this->strPassword					= $arrOptions[self::Option_Password] ?? '';
+		$this->strNamespace					= $arrOptions[self::Option_Namespace] ?? $this->strProjectName;
+		$this->strSOAPVersion				= (int)($arrOptions[self::Option_SOAPVersion] ?? SOAP_1_2);
+		$this->strOutputPath				= rtrim($arrOptions[self::Option_OutputPath] ?? __DIR__.self::OutputFolder.str_replace('\\', '/',$this->strProjectName), '/');
+		$this->bUsePrivatePackagist			= filter_var($arrOptions[self::Option_UsePrivatePackagist] ?? '', FILTER_VALIDATE_BOOLEAN);
+		$this->bUseLocationInsideOptions	= filter_var($arrOptions[self::Option_UseLocationInsideOptions] ?? '', FILTER_VALIDATE_BOOLEAN);
 	}
 
 	/**
@@ -315,6 +323,7 @@ class SoapMaker
 			self::Option_SOAPVersion.self::Option_WithValue,
 			self::Option_OutputPath.self::Option_WithValue,
 			self::Option_UsePrivatePackagist.self::Option_WithValue,
+			self::Option_UseLocationInsideOptions.self::Option_WithValue,
 		];
 	}
 }

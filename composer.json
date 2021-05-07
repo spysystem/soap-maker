@@ -7,11 +7,11 @@
 		{"packagist.org": false}
 	],
 	"require-dev": {
-		"roave/security-advisories": "dev-master"
+		"roave/security-advisories": "dev-latest"
 	},
 	"require": {
 		"php": ">=7.4",
-		"spysystem/wsdl2phpgenerator": "~v3.5.4",
+		"spysystem/wsdl2phpgenerator": "~3.6.0",
 		"nadar/php-composer-reader": "~1.0.1",
 		"ext-soap": "*"
 	},

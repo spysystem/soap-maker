@@ -13,3 +13,4 @@
 /output/
 /phpunit.xml
 *-generator.sh
+composer.lock

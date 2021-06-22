@@ -8,6 +8,6 @@
     {"packagist.org": false}
   ],
   "require-dev": {
-    "spysystem/soap-maker": "^2.0.0"
+    "spysystem/soap-maker": "^2.0.2"
   }
 }

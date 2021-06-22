@@ -106,7 +106,7 @@ class SoapMaker
 			$arrSoapClientOptions	= [
 				'trace'			=> true,
 				'exceptions'	=> true,
-				'soap_version'	=> $this->strSOAPVersion,
+				'soap_version'	=> (int)$this->strSOAPVersion,
 				'encoding'		=> 'UTF-8'
 			];
 
@@ -236,7 +236,7 @@ class SoapMaker
 				"ext-soap": "*"
 			},
 			"require-dev": {
-				"spysystem/soap-maker": "^2.0.0"
+				"spysystem/soap-maker": "^2.0.2"
 			},
 			"autoload": {
 				"psr-4": {

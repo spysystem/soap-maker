@@ -11,7 +11,7 @@
 	},
 	"require": {
 		"php": ">=7.4",
-		"spysystem/wsdl2phpgenerator": "~3.6.0",
+		"spysystem/wsdl2phpgenerator": "~3.6.1",
 		"nadar/php-composer-reader": "~1.0.1",
 		"ext-soap": "*"
 	},
